@@ -25,9 +25,6 @@ export interface UserDTO {
 
 const IndexPage: NextPage<{ user: UserDTO; api: IResponse }> = () => {
   const { data, error } = useSwr<IResponse>("/movie/popular", useRequest);
-  const isAuthenticated = useAuth();
-
-  if (!isAuthenticated) return <NotAuthorized></NotAuthorized>;
 
   if (error) <h1>Error...</h1>;
 

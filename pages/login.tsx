@@ -1,6 +1,7 @@
 import { FormEvent, useState, ChangeEvent } from "react";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import cookie from "cookie";
 
 import axios from "../src/shared/utils/axios";
 
@@ -18,7 +19,16 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await mutate("/auth/login", loginUser({ email, password }));
+    const { access_token } = await mutate(
+      "/auth/login",
+      loginUser({ email, password })
+    );
+    const jwtCookie = cookie.serialize("jwt", access_token, {
+      sameSite: "strict",
+      httpOnly: true,
+    });
+    console.log(jwtCookie);
+    document.cookie = jwtCookie;
     router.push("/");
   };
 
