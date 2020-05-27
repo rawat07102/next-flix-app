@@ -6,9 +6,9 @@
     "node": "12.16.3"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js --port $PORT ",
     "build": "next build",
-    "start": "next start --port $PORT"
+    "start": "node server.js NODE_ENV=production node --port $PORT"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.14",
@@ -16,6 +16,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "axios": "^0.19.2",
     "cookie": "^0.4.1",
+    "express": "^4.17.1",
     "next": "9.4.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/cookie": "^0.4.0",
+    "@types/express": "^4.17.6",
     "@types/node": "^13.13.5",
     "@types/react": "^16.9.35",
     "typescript": "^3.8.3"
