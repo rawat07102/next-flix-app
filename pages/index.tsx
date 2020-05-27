@@ -6,8 +6,6 @@ import { useRequest } from "../src/shared/utils/useRequest";
 
 import Layout from "../src/shared/components/Layout";
 import MovieCard from "../src/movie/components/MovieCard";
-import useAuth from "../src/shared/hooks/useAuth";
-import NotAuthorized from "../src/shared/components/NotAuthorized";
 import MovieCardSkeleton from "../src/movie/components/MovieCardSkeleton";
 
 interface IResponse {

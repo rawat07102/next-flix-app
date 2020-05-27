@@ -5,7 +5,6 @@ import { NextComponentType } from "next";
 import { useRouter } from "next/router";
 
 import {
-  //   Button,
   AppBar,
   IconButton,
   makeStyles,
@@ -14,8 +13,7 @@ import {
 } from "@material-ui/core";
 import Link from "next/link";
 import axios from "../utils/axios";
-import { trigger } from "swr";
-// import Link from "next/link";
+import { mutate } from "swr";
 
 const useStyles = makeStyles((_theme) => ({
   container: {
@@ -34,38 +32,14 @@ const NavBar: NextComponentType = () => {
   const router = useRouter();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  //   const [loggedIn, setLoggedIn] = useState(false);
-  //   const [logout, { data }] = useLogoutMutation();
-  //   const router = useRouter();
 
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
 
-  //   const handleLogout = async () => {
-  //     await logout();
-  //     localStorage.removeItem("userData");
-  //     logout();
-  //     setLoggedIn(false);
-  //     router.reload();
-  //   };
-
-  //   useEffect(() => {
-  //     const userData = localStorage.getItem("userData");
-  //     setLoggedIn(!!userData);
-  //   });
-
-  //   const loginButton = loggedIn ? (
-  //     <Button onClick={handleLogout}>Logout</Button>
-  //   ) : (
-  //     <Link href="/login">
-  //       <Button className={classes.loginButton}>Login</Button>
-  //     </Link>
-  //   );
-
   const handleLogout = async () => {
     await axios.post("auth/logout");
-    trigger("/user/profile", true);
+    mutate("/user/profile", null, true);
     router.replace("/");
   };
 
