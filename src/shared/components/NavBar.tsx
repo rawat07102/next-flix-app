@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { NextComponentType } from "next";
+import useSwr from "swr";
+
 import MenuIcon from "@material-ui/icons/Menu";
 import Drawer from "./Drawer";
-import { NextComponentType } from "next";
-import { useRouter } from "next/router";
 
 import {
   AppBar,
@@ -13,7 +15,6 @@ import {
 } from "@material-ui/core";
 import Link from "next/link";
 import axios from "../utils/axios";
-import { mutate } from "swr";
 
 const useStyles = makeStyles((_theme) => ({
   container: {
@@ -32,6 +33,14 @@ const NavBar: NextComponentType = () => {
   const router = useRouter();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const { data, mutate } = useSwr("/user/profile", {
+    shouldRetryOnError: false,
+  });
+
+  useEffect(() => {
+    if (data) setLoggedIn(true);
+  }, [data]);
 
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
@@ -39,12 +48,22 @@ const NavBar: NextComponentType = () => {
 
   const handleLogout = async () => {
     await axios.post("auth/logout");
-    mutate("/user/profile", null, true);
+    mutate(null, true);
+    setLoggedIn(false);
+    localStorage.removeItem("userId");
     router.replace("/");
   };
 
+  const authButton = loggedIn ? (
+    <Button onClick={handleLogout}>Logout</Button>
+  ) : (
+    <Link href="/login">
+      <Button>Login</Button>
+    </Link>
+  );
+
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Drawer open={open} handleClose={toggleDrawer}></Drawer>
       <Container className={classes.container} maxWidth="lg">
         <IconButton
@@ -57,11 +76,7 @@ const NavBar: NextComponentType = () => {
         <Link href="/profile">
           <Button>Profile</Button>
         </Link>
-        {/* {loginButton} */}
-        <Link href="/login">
-          <Button>Login</Button>
-        </Link>
-        <Button onClick={handleLogout}>Logout</Button>
+        {authButton}
       </Container>
     </AppBar>
   );

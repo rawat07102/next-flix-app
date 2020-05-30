@@ -4,6 +4,8 @@ import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { theme } from "../src/shared/styles/theme";
+import { SWRConfig } from "swr";
+import { useRequest } from "../src/shared/utils/useRequest";
 
 export default function MyApp(props: any) {
   const { Component, pageProps } = props;
@@ -28,7 +30,9 @@ export default function MyApp(props: any) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <SWRConfig value={{ fetcher: useRequest }}>
+          <Component {...pageProps} />
+        </SWRConfig>
       </ThemeProvider>
     </React.Fragment>
   );

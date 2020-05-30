@@ -4,7 +4,6 @@ import UserProfile from "../src/user/components/UserProfile";
 import { NextPage } from "next";
 import { UserDTO } from ".";
 import useSWR from "swr";
-import { useRequest } from "../src/shared/utils/useRequest";
 import { useRouter } from "next/router";
 
 interface props {
@@ -14,7 +13,7 @@ interface props {
 
 const ProfilePage: NextPage<props> = () => {
   const router = useRouter();
-  const { data: userData } = useSWR("/user/profile", useRequest, {
+  const { data: userData } = useSWR("/user/profile", {
     onError: () => {
       router.replace("/login");
     },
