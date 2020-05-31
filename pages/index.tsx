@@ -2,13 +2,13 @@ import useSwr, { useSWRPages } from "swr";
 import { NextPage } from "next";
 
 import { MovieDto } from "../src/movie/dto/movie.dto";
-import { useRequest } from "../src/shared/utils/useRequest";
 
 import Layout from "../src/shared/components/Layout";
 import MovieCard from "../src/movie/components/MovieCard";
 import MovieCardSkeleton from "../src/movie/components/MovieCardSkeleton";
-import { pagesWithSWRType } from "swr/dist/types";
 import { Button } from "@material-ui/core";
+import { useRef, useEffect, useState } from "react";
+import { useOnScreen } from "../src/shared/hooks/useOnScreen";
 
 interface IResponse {
   results: MovieDto[];
@@ -24,7 +24,14 @@ export interface UserDTO {
 }
 
 const IndexPage: NextPage<{ user: UserDTO; api: IResponse }> = () => {
-  // const { data, error } = useSwr<IResponse>("/movie/popular");
+  const loadMoreRef = useRef<HTMLButtonElement>(null);
+  const [isScrollEnable, setScroll] = useState(false);
+  const isOnScreen = useOnScreen(loadMoreRef, "200px");
+
+  useEffect(() => {
+    if (isOnScreen && isScrollEnable) loadMore();
+  }, [isOnScreen]);
+
   const { pages, loadMore, isLoadingMore, isReachingEnd } = useSWRPages<
     number,
     IResponse,
@@ -54,9 +61,21 @@ const IndexPage: NextPage<{ user: UserDTO; api: IResponse }> = () => {
   return (
     <Layout>
       <div>{pages}</div>
-      <div>
-        <Button onClick={loadMore} disabled={isLoadingMore || isReachingEnd}>
-          load
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          ref={loadMoreRef}
+          onClick={() => {
+            loadMore();
+            setScroll(true);
+          }}
+          disabled={isLoadingMore || isReachingEnd}
+        >
+          Load More
         </Button>
       </div>
     </Layout>
