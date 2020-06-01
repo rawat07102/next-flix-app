@@ -44,6 +44,14 @@ const Drawer: FunctionComponent<DrawerProps> = ({ open, handleClose }) => {
             </Link>
           }
         ></TreeItem>
+        <TreeItem
+          nodeId="2"
+          label={
+            <Link href="/register">
+              <Typography variant="h6">SignUp</Typography>
+            </Link>
+          }
+        ></TreeItem>
         {/* {loggedIn && (
           <TreeItem
             nodeId="2"

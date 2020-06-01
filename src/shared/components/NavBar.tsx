@@ -51,7 +51,6 @@ const NavBar: NextComponentType = () => {
     mutate(null, true);
     setLoggedIn(false);
     localStorage.removeItem("userId");
-    router.replace("/");
   };
 
   const authButton = loggedIn ? (
