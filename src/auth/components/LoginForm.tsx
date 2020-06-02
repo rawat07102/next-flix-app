@@ -5,15 +5,17 @@ import { TextField } from "@material-ui/core";
 
 import FormLayout from "../../shared/components/FormLayout";
 import axios from "../../shared/utils/axios";
+import { LoginDTO } from "../dto/auth.dto";
+import { UserDTO } from "../../user/dto/user.dto";
 
-const loginUser = async (userData: { email: string; password: string }) => {
-  const res = await axios.post("/auth/login", userData);
+const loginUser = async (loginData: LoginDTO) => {
+  const res = await axios.post<{ id: UserDTO["id"] }>("/auth/login", loginData);
   return res.data;
 };
 
 const LoginForm = () => {
   const router = useRouter();
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<LoginDTO>({
     email: "",
     password: "",
   });
@@ -36,12 +38,14 @@ const LoginForm = () => {
   return (
     <FormLayout handleSubmit={handleSubmit}>
       <TextField
+        autoComplete="email"
         onChange={handleChange}
         id="email"
         label="Email"
         type="email"
       />
       <TextField
+        autoComplete="current-password"
         onChange={handleChange}
         id="password"
         label="Password"

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useContext } from "react";
 import { NextComponentType } from "next";
 import useSwr from "swr";
 
@@ -15,6 +14,7 @@ import {
 } from "@material-ui/core";
 import Link from "next/link";
 import axios from "../utils/axios";
+import { AuthContext } from "../../auth/context/auth.context";
 
 const useStyles = makeStyles((_theme) => ({
   container: {
@@ -30,17 +30,12 @@ const useStyles = makeStyles((_theme) => ({
 }));
 
 const NavBar: NextComponentType = () => {
-  const router = useRouter();
+  const user = useContext(AuthContext);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const { data, mutate } = useSwr("/user/profile", {
+  const { mutate } = useSwr("/user/profile", {
     shouldRetryOnError: false,
   });
-
-  useEffect(() => {
-    if (data) setLoggedIn(true);
-  }, [data]);
 
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
@@ -49,11 +44,10 @@ const NavBar: NextComponentType = () => {
   const handleLogout = async () => {
     await axios.post("auth/logout");
     mutate(null, true);
-    setLoggedIn(false);
     localStorage.removeItem("userId");
   };
 
-  const authButton = loggedIn ? (
+  const authButton = user ? (
     <Button onClick={handleLogout}>Logout</Button>
   ) : (
     <Link href="/login">

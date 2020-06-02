@@ -7,20 +7,16 @@ import Layout from "../src/shared/components/Layout";
 import MovieCard from "../src/movie/components/MovieCard";
 import MovieCardSkeleton from "../src/movie/components/MovieCardSkeleton";
 import { Button } from "@material-ui/core";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { useOnScreen } from "../src/shared/hooks/useOnScreen";
+import { UserDTO } from "../src/user/dto/user.dto";
+import { AuthContext } from "../src/auth/context/auth.context";
 
 interface IResponse {
   results: MovieDto[];
   page: number;
   total_pages: number;
   total_results: number;
-}
-
-export interface UserDTO {
-  email: string;
-  id: string;
-  username: string;
 }
 
 const IndexPage: NextPage<{ user: UserDTO; api: IResponse }> = () => {

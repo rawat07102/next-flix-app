@@ -20,7 +20,8 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "strictPropertyInitialization": false;
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
