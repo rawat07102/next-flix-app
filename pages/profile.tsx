@@ -6,6 +6,7 @@ import UserProfile from "../src/user/components/UserProfile";
 import { useContext } from "react";
 import { AuthContext } from "../src/auth/context/auth.context";
 import axios from "../src/shared/utils/axios";
+import fetch from "isomorphic-unfetch";
 
 const ProfilePage: NextPage = () => {
   const userData = useContext(AuthContext);
@@ -34,12 +35,21 @@ ProfilePage.getInitialProps = async (ctx) => {
         credentials: "same-origin",
       },
     });
+    // const response = await fetch(
+    //   "https://nest-flix-app.herokuapp.com/profile",
+    //   {
+    //     credentials: "same-origin",
+    //     headers: {
+    //       Cookie: cookie,
+    //     },
+    //   }
+    // );
     return {
       data: response.data,
     };
   } catch (err) {
     ctx.res?.writeHead(303, {
-      Location: "http://next-flix-app.herokuapp.com",
+      Location: "http://next-flix-app.herokuapp.com/",
     });
     ctx.res?.end();
   }
