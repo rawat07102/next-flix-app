@@ -31,6 +31,7 @@ ProfilePage.getInitialProps = async (ctx) => {
         Cookie: cookie,
         "content-type": "application/json",
         Accept: "/",
+        credentials: "same-origin",
       },
     });
     return {
