@@ -6,7 +6,6 @@ import UserProfile from "../src/user/components/UserProfile";
 import { useContext } from "react";
 import { AuthContext } from "../src/auth/context/auth.context";
 import axios from "../src/shared/utils/axios";
-import fetch from "isomorphic-unfetch";
 
 const ProfilePage: NextPage = () => {
   const userData = useContext(AuthContext);
