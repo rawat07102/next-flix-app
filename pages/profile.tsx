@@ -36,7 +36,7 @@ ProfilePage.getInitialProps = async (ctx) => {
     };
   } catch (err) {
     ctx.res?.writeHead(303, {
-      Location: "http://localhost:3000/",
+      Location: "http://next-flix-app.herokuapp.com",
     });
     ctx.res?.end();
   }
