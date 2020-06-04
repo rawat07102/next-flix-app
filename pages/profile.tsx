@@ -5,7 +5,7 @@ import ProfileSkeleton from "../src/shared/components/ProfileSkeleton";
 import UserProfile from "../src/user/components/UserProfile";
 import { useContext } from "react";
 import { AuthContext } from "../src/auth/context/auth.context";
-import axios from "../src/shared/utils/axios";
+import fetch from "isomorphic-unfetch";
 
 const ProfilePage: NextPage = () => {
   const userData = useContext(AuthContext);
@@ -26,25 +26,25 @@ const ProfilePage: NextPage = () => {
 ProfilePage.getInitialProps = async (ctx) => {
   const cookie = ctx.req?.headers.cookie || "";
   try {
-    const response = await axios.get("/user/profile", {
-      headers: {
-        Cookie: cookie,
-        "content-type": "application/json",
-        Accept: "/",
-        credentials: "same-origin",
-      },
-    });
-    // const response = await fetch(
-    //   "https://nest-flix-app.herokuapp.com/profile",
-    //   {
+    // const response = await axios.get("/user/profile", {
+    //   headers: {
+    //     Cookie: cookie,
+    //     "content-type": "application/json",
+    //     Accept: "/",
     //     credentials: "same-origin",
-    //     headers: {
-    //       Cookie: cookie,
-    //     },
-    //   }
-    // );
+    //   },
+    // });
+    const response = await fetch(
+      "https://nest-flix-app.herokuapp.com/profile",
+      {
+        credentials: "same-origin",
+        headers: {
+          Cookie: cookie,
+        },
+      }
+    );
     return {
-      data: response.data,
+      data: response,
     };
   } catch (err) {
     ctx.res?.writeHead(303, {
