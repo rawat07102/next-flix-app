@@ -1,6 +1,6 @@
 import { CardContent, Typography, Card, CardHeader } from "@material-ui/core";
-import { UserDTO } from "../../../pages";
 import { FunctionComponent } from "react";
+import { UserDTO } from "../dto/user.dto";
 
 interface props {
   user: UserDTO;
