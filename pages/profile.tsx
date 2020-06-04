@@ -28,7 +28,9 @@ ProfilePage.getInitialProps = async (ctx) => {
   try {
     const response = await axios.get("/user/profile", {
       headers: {
-        cookie: cookie,
+        Cookie: cookie,
+        "content-type": "application/json",
+        Accept: "/",
       },
     });
     return {
