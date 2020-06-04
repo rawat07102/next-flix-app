@@ -1,8 +1,9 @@
 import { Drawer as MuiDrawer, makeStyles, Typography } from "@material-ui/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
 import Link from "next/link";
 import { TreeView, TreeItem } from "@material-ui/lab";
 import { ExpandMore, ChevronRight } from "@material-ui/icons";
+import { AuthContext } from "../../auth/context/auth.context";
 
 interface DrawerProps {
   open: boolean;
@@ -18,6 +19,7 @@ const useStyles = makeStyles((_theme) => ({
 
 const Drawer: FunctionComponent<DrawerProps> = ({ open, handleClose }) => {
   const classes = useStyles();
+  const user = useContext(AuthContext);
   //   const [loggedIn, setLoggedIn] = useState(false);
 
   //   useEffect(() => {
@@ -45,6 +47,7 @@ const Drawer: FunctionComponent<DrawerProps> = ({ open, handleClose }) => {
           }
         ></TreeItem>
         <TreeItem
+          hidden={!!user}
           nodeId="2"
           label={
             <Link href="/register">

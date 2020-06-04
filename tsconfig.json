@@ -21,7 +21,7 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "downlevelIteration": true,
-    "strictPropertyInitialization": false;
+    "strictPropertyInitialization": false
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]

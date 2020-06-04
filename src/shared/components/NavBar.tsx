@@ -66,9 +66,11 @@ const NavBar: NextComponentType = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Link href="/profile">
-          <Button>Profile</Button>
-        </Link>
+        {user && (
+          <Link href="/profile">
+            <Button>Profile</Button>
+          </Link>
+        )}
         {authButton}
       </Container>
     </AppBar>

@@ -1,13 +1,13 @@
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 
 import Layout from "../src/shared/components/Layout";
 import ProfileSkeleton from "../src/shared/components/ProfileSkeleton";
 import UserProfile from "../src/user/components/UserProfile";
 import { useContext } from "react";
 import { AuthContext } from "../src/auth/context/auth.context";
+import axios from "../src/shared/utils/axios";
 
-const ProfilePage: NextPage = ({}) => {
+const ProfilePage: NextPage = () => {
   const userData = useContext(AuthContext);
 
   return (
@@ -21,6 +21,29 @@ const ProfilePage: NextPage = ({}) => {
       )}
     </Layout>
   );
+};
+
+ProfilePage.getInitialProps = async (ctx) => {
+  const cookie = ctx.req?.headers.cookie || "";
+  try {
+    const response = await axios.get("/user/profile", {
+      headers: {
+        cookie: cookie,
+      },
+    });
+    return {
+      data: response.data,
+    };
+  } catch (err) {
+    ctx.res?.writeHead(303, {
+      Location: "http://localhost:3000/",
+    });
+    ctx.res?.end();
+  }
+
+  return {
+    data: {},
+  };
 };
 
 export default ProfilePage;

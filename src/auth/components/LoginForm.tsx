@@ -24,7 +24,7 @@ const LoginForm = () => {
     e.preventDefault();
     const { userId } = await mutate("/auth/login", loginUser(userData));
     localStorage.setItem("userId", userId);
-    router.push("/");
+    router.replace("/profile");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
