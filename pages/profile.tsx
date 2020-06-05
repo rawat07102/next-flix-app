@@ -25,17 +25,20 @@ const ProfilePage: NextPage = () => {
 
 ProfilePage.getInitialProps = async (ctx) => {
   try {
+    console.log(ctx.req?.headers.cookie, "cookie");
     const response = await axios({
       method: "get",
       url: "/user/profile",
       headers: ctx.req ? { cookie: ctx.req.headers.cookie } : undefined,
     });
+    console.log(response.data, "res data");
     return {
       data: response.data,
     };
   } catch (err) {
     ctx.res?.writeHead(303, {
       Location: "http://next-flix-app.herokuapp.com/",
+      // Location: "http://localhost:3000/",
     });
     ctx.res?.end();
   }
