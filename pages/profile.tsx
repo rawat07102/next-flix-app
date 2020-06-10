@@ -35,7 +35,7 @@ ProfilePage.getInitialProps = async (ctx) => {
   try {
     const cookie = ctx.req?.headers.cookie;
     const axiosRes = await axios({
-      url: "http://localhost:4000/user/profile",
+      url: process.env.NEXT_PUBLIC_API_URL + "/user/profile",
       headers: cookie ? { cookie } : {},
     });
     return {
@@ -43,7 +43,7 @@ ProfilePage.getInitialProps = async (ctx) => {
     };
   } catch (err) {
     ctx.res?.writeHead(307, {
-      Location: "http://localhost:3000/",
+      Location: process.env.NEXT_PUBLIC_APP_URL,
     });
     ctx.res?.end();
     return {};
