@@ -1,18 +1,13 @@
 import { NextPage } from "next";
-import { useContext } from "react";
-
-import { AuthContext } from "../src/auth/context/auth.context";
+import Router from "next/router";
 
 import Layout from "../src/shared/components/Layout";
 import ProfileSkeleton from "../src/shared/components/ProfileSkeleton";
 import UserProfile from "../src/user/components/UserProfile";
-import NotAuthorized from "../src/shared/components/NotAuthorized";
+import axios from "axios";
+import clientAxios from "../src/shared/utils/axios";
 
-const ProfilePage: NextPage = () => {
-  const userData = useContext(AuthContext);
-
-  if (!userData) return <NotAuthorized />;
-
+const ProfilePage: NextPage = ({ data: userData }: any) => {
   return (
     <Layout>
       {userData ? (
@@ -24,6 +19,35 @@ const ProfilePage: NextPage = () => {
       )}
     </Layout>
   );
+};
+
+ProfilePage.getInitialProps = async (ctx) => {
+  if (!ctx.req) {
+    try {
+      const axiosRes = await clientAxios.get("/user/profile");
+      return { data: axiosRes.data };
+    } catch (err) {
+      Router.push("/login");
+      return {};
+    }
+  }
+
+  try {
+    const cookie = ctx.req?.headers.cookie;
+    const axiosRes = await axios({
+      url: "http://localhost:4000/user/profile",
+      headers: cookie ? { cookie } : {},
+    });
+    return {
+      data: axiosRes.data,
+    };
+  } catch (err) {
+    ctx.res?.writeHead(307, {
+      Location: "http://localhost:3000/",
+    });
+    ctx.res?.end();
+    return {};
+  }
 };
 
 export default ProfilePage;

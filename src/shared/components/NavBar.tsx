@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import axios from "../utils/axios";
 import { AuthContext } from "../../auth/context/auth.context";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((_theme) => ({
   container: {
@@ -31,6 +32,7 @@ const useStyles = makeStyles((_theme) => ({
 
 const NavBar: NextComponentType = () => {
   const user = useContext(AuthContext);
+  const router = useRouter();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const { mutate } = useSwr("/user/profile", {
@@ -45,6 +47,7 @@ const NavBar: NextComponentType = () => {
     await axios.post("auth/logout");
     mutate(null, true);
     localStorage.removeItem("userId");
+    router.replace("/");
   };
 
   const authButton = user ? (
