@@ -56,7 +56,7 @@ if (!dev && cluster.isMaster) {
     server.use(
       createProxyMiddleware("/api", {
         target: "https://nest-flix-server.herokuapp.com",
-        pathRewrite: { "^/api": "/" },
+        pathRewrite: { "^/api": "" },
         changeOrigin: true,
       })
     );

@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { MovieDto } from "../dto/movie.dto";
+import { useRouter } from "next/router";
 
 interface Props {
   movie: MovieDto;
@@ -12,6 +13,7 @@ interface Props {
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    cursor: "pointer",
   },
   bullet: {
     display: "inline-block",
@@ -28,9 +30,13 @@ const useStyles = makeStyles({
 
 const MovieCard: FunctionComponent<Props> = ({ movie }) => {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
-    <Card className={classes.root}>
+    <Card
+      onClick={() => router.push("/movie/[id]", `/movie/${movie.id}`)}
+      className={classes.root}
+    >
       <CardContent>
         <Typography variant="h2">{movie.title}</Typography>
         <Typography variant="subtitle1">{movie.tagline}</Typography>
