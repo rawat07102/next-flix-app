@@ -5,28 +5,25 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { MovieDto } from "../dto/movie.dto";
 import { useRouter } from "next/router";
+import { CardMedia } from "@material-ui/core";
 
 interface Props {
   movie: MovieDto;
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((_theme) => ({
   root: {
-    minWidth: 275,
     cursor: "pointer",
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
+    minHeight: "394.6px",
+    height: "100%",
   },
   title: {
-    fontSize: 14,
+    fontSize: "1.3rem",
   },
-  pos: {
-    marginBottom: 12,
+  media: {
+    height: "394.6px",
   },
-});
+}));
 
 const MovieCard: FunctionComponent<Props> = ({ movie }) => {
   const classes = useStyles();
@@ -37,10 +34,15 @@ const MovieCard: FunctionComponent<Props> = ({ movie }) => {
       onClick={() => router.push("/movie/[id]", `/movie/${movie.id}`)}
       className={classes.root}
     >
+      <CardMedia
+        image={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+        className={classes.media}
+        title={movie.title}
+      />
       <CardContent>
-        <Typography variant="h2">{movie.title}</Typography>
-        <Typography variant="subtitle1">{movie.tagline}</Typography>
-        <Typography variant="body1">{movie.overview}</Typography>
+        <Typography noWrap={true} className={classes.title} variant="h2">
+          {movie.title}
+        </Typography>
       </CardContent>
     </Card>
   );

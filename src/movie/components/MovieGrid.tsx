@@ -9,9 +9,13 @@ interface Props {
 const MovieGrid: React.FunctionComponent<Props> = ({ movies }) => {
   return (
     <div>
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))}
+      <Grid container justify="space-between" spacing={2}>
+        {movies.map((movie) => (
+          <Grid md={3} xs={6} lg={3} item key={movie.id}>
+            <MovieCard movie={movie} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

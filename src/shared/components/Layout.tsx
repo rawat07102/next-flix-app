@@ -1,19 +1,22 @@
 import NavBar from "./NavBar";
 import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core";
 // import Drawer from "./Drawer";
 // import { useState } from "react";
 
-const Layout: React.FunctionComponent = ({ children }) => {
-  // const [open, setOpen] = useState(false);
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
-  // const handleClose = () => {
-  //   setOpen(prev => !prev);
-  // };
+const Layout: React.FunctionComponent = ({ children }) => {
+  const classes = useStyles();
 
   return (
     <div>
       <NavBar />
-      <Container component="main" maxWidth="lg">
+      <Container className={classes.container} component="main" maxWidth="lg">
         {children}
       </Container>
     </div>
