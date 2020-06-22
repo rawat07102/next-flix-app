@@ -5,8 +5,8 @@ const MovieCardSkeleton = () => {
   return (
     <Card>
       <CardContent>
-        <Skeleton variant="rect" height={72} width="50%" />
-        <Skeleton variant="text" height={72} />
+        <Skeleton variant="rect" height="394.6px" width="100%" />
+        <Skeleton variant="text" height="100%" width="100%" />
       </CardContent>
     </Card>
   );
