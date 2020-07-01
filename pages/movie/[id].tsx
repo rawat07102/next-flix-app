@@ -38,15 +38,20 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
 
   return (
     <Layout>
-      <Grid container direction="column" justify="space-between">
+      <Grid container direction="column" justify="space-between" spacing={2}>
         {/**** title ****/}
-        <Grid item xs={12}>
-          <Typography variant="h1" className={classes.title}>
-            {data?.title}
-          </Typography>
+        <Grid container item xs={12} justify="space-between" spacing={2}>
+          <Grid item xs={4}>
+            <Typography align="center" variant="h1" className={classes.title}>
+              {data?.title}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant="subtitle1">{data?.release_date}</Typography>
+          </Grid>
         </Grid>
 
-        <Grid container spacing={2}>
+        <Grid container item spacing={2}>
           <Grid item xs={4}>
             <Image
               src={
@@ -58,7 +63,9 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
             />
           </Grid>
           <Grid item xs={8}>
-            <Typography variant="body1">{data?.overview}</Typography>
+            <Typography variant="body1" paragraph>
+              {data?.overview}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
