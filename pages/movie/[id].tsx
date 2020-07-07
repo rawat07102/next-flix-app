@@ -8,7 +8,7 @@ import { MovieDto } from "../../src/movie/dto/movie.dto";
 import api from "../../src/shared/utils/api";
 
 import Layout from "../../src/shared/components/Layout";
-import { Typography, Grid, makeStyles } from "@material-ui/core";
+import { Typography, Grid, makeStyles, Modal, Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -16,12 +16,26 @@ interface Props {
 }
 
 const useStyles = makeStyles((_theme) => ({
+  rootContainer: {},
+  headContainer: {},
+  bodyContainer: {},
+  mediaContainer: {},
+  header: {},
+  subHeader: {},
+  body: {
+    padding: "0px 8px",
+  },
   title: {
     fontSize: "3rem",
   },
+  trailerButton: {
+    marginTop: "4px",
+  },
+  poster: {},
 }));
 
 const MoviePage: NextPage<Props> = ({ data: movie }) => {
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query;
@@ -38,21 +52,41 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
 
   return (
     <Layout>
-      <Grid container direction="column" justify="space-between" spacing={2}>
-        {/**** title ****/}
-        <Grid container item xs={12} justify="space-between" spacing={2}>
-          <Grid item xs={4}>
+      <Grid
+        container
+        direction="column"
+        justify="space-between"
+        // spacing={2}
+        className={classes.rootContainer}
+      >
+        <Grid
+          container
+          item
+          xs={12}
+          justify="space-between"
+          spacing={2}
+          className={classes.headContainer}
+        >
+          <Grid item xs={4} className={classes.header}>
             <Typography align="center" variant="h1" className={classes.title}>
               {data?.title}
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item className={classes.subHeader}>
             <Typography variant="subtitle1">{data?.release_date}</Typography>
           </Grid>
         </Grid>
 
-        <Grid container item spacing={2}>
-          <Grid item xs={4}>
+        <Grid container item spacing={2} className={classes.bodyContainer}>
+          <Grid
+            container
+            item
+            direction="column"
+            justify="space-between"
+            xs={4}
+            spacing={2}
+            className={classes.mediaContainer}
+          >
             <Image
               src={
                 !isLoading
@@ -60,12 +94,29 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
                   : ""
               }
               aspectRatio={3 / 4}
+              className={classes.poster}
             />
+            {/* <div style={{ backgroundColor: "red" }}></div> */}
+
+            <Button
+              // style={{ marginTop: "8px" }}
+              color="secondary"
+              variant="contained"
+              className={classes.trailerButton}
+            >
+              Trailer
+            </Button>
           </Grid>
-          <Grid item xs={8}>
-            <Typography variant="body1" paragraph>
-              {data?.overview}
-            </Typography>
+          <Grid container item xs={8} className={classes.body}>
+            <Typography variant="body1">{data?.overview}</Typography>
+            <Modal open={open} onClose={() => setOpen(false)}>
+              <iframe
+                allowFullScreen
+                width="80%"
+                height="80%"
+                src={`https://www.youtube.com/embed/SUXWAEX2jlg`}
+              ></iframe>
+            </Modal>
           </Grid>
         </Grid>
       </Grid>
