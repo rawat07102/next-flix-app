@@ -15,15 +15,17 @@ interface Props {
   data: MovieDto;
 }
 
-const useStyles = makeStyles((_theme) => ({
+const useStyles = makeStyles((theme) => ({
   rootContainer: {},
   headContainer: {},
-  bodyContainer: {},
+  bodyContainer: {
+    marginTop: theme.spacing(1),
+  },
   mediaContainer: {},
   header: {},
   subHeader: {},
   body: {
-    padding: "0px 8px",
+    marginLeft: theme.spacing(1),
   },
   title: {
     fontSize: "3rem",
@@ -35,7 +37,7 @@ const useStyles = makeStyles((_theme) => ({
 }));
 
 const MoviePage: NextPage<Props> = ({ data: movie }) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const classes = useStyles();
   const router = useRouter();
   const { id } = router.query;
@@ -52,71 +54,37 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
 
   return (
     <Layout>
-      <Grid
-        container
-        direction="column"
-        justify="space-between"
-        // spacing={2}
-        className={classes.rootContainer}
-      >
+      <Grid container className={classes.rootContainer}>
         <Grid
           container
           item
-          xs={12}
           justify="space-between"
-          spacing={2}
           className={classes.headContainer}
         >
-          <Grid item xs={4} className={classes.header}>
-            <Typography align="center" variant="h1" className={classes.title}>
-              {data?.title}
-            </Typography>
-          </Grid>
-          <Grid item className={classes.subHeader}>
-            <Typography variant="subtitle1">{data?.release_date}</Typography>
-          </Grid>
+          <Typography variant="h2">{data?.title}</Typography>
+          <Typography variant="subtitle1">{data?.release_date}</Typography>
         </Grid>
 
-        <Grid container item spacing={2} className={classes.bodyContainer}>
-          <Grid
-            container
-            item
-            direction="column"
-            justify="space-between"
-            xs={4}
-            spacing={2}
-            className={classes.mediaContainer}
-          >
+        <Grid
+          container
+          item
+          justify="space-between"
+          wrap="nowrap"
+          className={classes.bodyContainer}
+        >
+          <Grid item xs={4} className={classes.mediaContainer}>
             <Image
               src={
                 !isLoading
-                  ? "https://image.tmdb.org/t/p/w500" + data?.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}`
                   : ""
               }
               aspectRatio={3 / 4}
-              className={classes.poster}
-            />
-            {/* <div style={{ backgroundColor: "red" }}></div> */}
-
-            <Button
-              // style={{ marginTop: "8px" }}
-              color="secondary"
-              variant="contained"
-              className={classes.trailerButton}
-            >
-              Trailer
-            </Button>
+              disableSpinner
+            ></Image>
           </Grid>
-          <Grid container item xs={8} className={classes.body}>
-            <Typography variant="body1">{data?.overview}</Typography>
-            <Modal open={open} onClose={() => setOpen(false)}>
-              <iframe
-                allowFullScreen
-                width="80%"
-                height="80%"
-                src={`https://www.youtube.com/embed/SUXWAEX2jlg`}
-              ></iframe>
-            </Modal>
+          <Grid container item className={classes.body}>
+            <Typography variant="body">{data?.overview}</Typography>
           </Grid>
         </Grid>
       </Grid>
