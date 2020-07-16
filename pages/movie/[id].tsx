@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontSize: "3rem",
+    maxWidth: "80%",
   },
   trailerButton: {
     marginTop: "4px",
@@ -61,7 +62,11 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
           justify="space-between"
           className={classes.headContainer}
         >
-          <Typography variant="h2">{data?.title}</Typography>
+          {/* <Grid xs={3} item container justify="center"> */}
+          <Typography variant="h2" className={classes.title} noWrap>
+            {data?.title}
+          </Typography>
+          {/* </Grid> */}
           <Typography variant="subtitle1">{data?.release_date}</Typography>
         </Grid>
 
@@ -81,10 +86,19 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
               }
               aspectRatio={3 / 4}
               disableSpinner
+              alt={data?.title}
             ></Image>
+            <Button
+              variant="contained"
+              color="secondary"
+              fullWidth
+              className={classes.trailerButton}
+            >
+              Trailer
+            </Button>
           </Grid>
           <Grid container item className={classes.body}>
-            <Typography variant="body">{data?.overview}</Typography>
+            <Typography variant="body2">{data?.overview}</Typography>
           </Grid>
         </Grid>
       </Grid>
