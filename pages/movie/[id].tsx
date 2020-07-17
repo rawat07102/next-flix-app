@@ -8,7 +8,7 @@ import { MovieDto } from "../../src/movie/dto/movie.dto";
 import api from "../../src/shared/utils/api";
 
 import Layout from "../../src/shared/components/Layout";
-import { Typography, Grid, makeStyles, Modal, Button } from "@material-ui/core";
+import { Typography, Grid, makeStyles, Button } from "@material-ui/core";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   mediaContainer: {},
+  trailerContainer: {
+    height: "100%",
+  },
   header: {},
   subHeader: {},
   body: {
@@ -31,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "3rem",
     maxWidth: "80%",
   },
+  overview: (props) => ({
+    display: props ? "none" : "flex",
+  }),
   trailerButton: {
     marginTop: "4px",
   },
@@ -38,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MoviePage: NextPage<Props> = ({ data: movie }) => {
-  // const [open, setOpen] = useState(false);
-  const classes = useStyles();
+  const [show, setShow] = useState(false);
+  const classes = useStyles(show);
   const router = useRouter();
   const { id } = router.query;
   const { data, error } = useSwr(`/movie/${id}`, {
@@ -93,12 +99,23 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
               color="secondary"
               fullWidth
               className={classes.trailerButton}
+              onClick={() => setShow((prev) => !prev)}
             >
               Trailer
             </Button>
           </Grid>
           <Grid container item className={classes.body}>
-            <Typography variant="body2">{data?.overview}</Typography>
+            <Typography variant="body2" className={classes.overview}>
+              {data?.overview}
+            </Typography>
+            {show && (
+              <Grid item container className={classes.trailerContainer}>
+                <iframe
+                  width="100%"
+                  src={`https://www.youtube.com/embed/tgbNymZ7vqY`}
+                ></iframe>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Grid>

@@ -10,7 +10,7 @@ import { UserDTO } from "../src/user/dto/user.dto";
 import { useOnScreen } from "../src/shared/hooks/useOnScreen";
 import Layout from "../src/shared/components/Layout";
 import MovieGrid from "../src/movie/components/MovieGrid";
-import MovieGridSkeleton from "../src/movie/components/MovieGridSkeleton";
+import MovieGridSkeleton from "../src/movie/components/skeletons/MovieGridSkeleton";
 
 interface IResponse {
   results: MovieDto[];
