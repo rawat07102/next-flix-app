@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   overview: (props) => ({
     display: props ? "none" : "flex",
   }),
+  hiddenOverview: {
+    marginTop: theme.spacing(1),
+  },
   trailerButton: {
     marginTop: "4px",
   },
@@ -118,6 +121,11 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
             )}
           </Grid>
         </Grid>
+        {show && (
+          <Grid container item className={classes.hiddenOverview}>
+            <Typography variant="body2">{data?.overview}</Typography>
+          </Grid>
+        )}
       </Grid>
     </Layout>
   );
