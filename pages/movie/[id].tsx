@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 interface Props {
   data: MovieDto;
+  trailer: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   poster: {},
 }));
 
-const MoviePage: NextPage<Props> = ({ data: movie }) => {
+const MoviePage: NextPage<Props> = ({ data: movie, trailer }) => {
   const [show, setShow] = useState(false);
   const classes = useStyles(show);
   const router = useRouter();
@@ -115,7 +116,7 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
               <Grid item container className={classes.trailerContainer}>
                 <iframe
                   width="100%"
-                  src={`https://www.youtube.com/embed/tgbNymZ7vqY`}
+                  src={`https://www.youtube.com/embed/${trailer}`}
                 ></iframe>
               </Grid>
             )}
@@ -134,9 +135,11 @@ const MoviePage: NextPage<Props> = ({ data: movie }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { id } = query;
   const apiRes = await api.get(`/movie/${id}`);
+  const trailer = await api.get(`/movie/${id}/trailer`);
   return {
     props: {
       data: apiRes.data,
+      trailer: trailer.data,
     },
   };
 };
