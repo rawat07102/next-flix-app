@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.5rem",
   },
   loginButton: {
-    marginLeft: "auto",
+    marginLeft: "1.2rem",
     fontSize: "1.2rem",
     paddingRight: 0,
     fontWeight: theme.typography.fontWeightMedium,
@@ -86,7 +86,7 @@ const NavBar: NextComponentType = () => {
         </IconButton>
         {user && (
           <Link href="/profile">
-            <Button>Profile</Button>
+            <Button className={classes.loginButton}>Profile</Button>
           </Link>
         )}
         {authButton}
