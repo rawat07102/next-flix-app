@@ -1,9 +1,8 @@
 import {Drawer as MuiDrawer, makeStyles, Typography} from "@material-ui/core"
-import {FunctionComponent, useContext} from "react"
+import {FunctionComponent} from "react"
 import Link from "next/link"
 import {TreeView, TreeItem} from "@material-ui/lab"
 import {ExpandMore, ChevronRight} from "@material-ui/icons"
-import {AuthContext} from "../../auth/context/auth.context"
 import {useAuth} from "../../auth/hooks/useAuth"
 
 interface DrawerProps {

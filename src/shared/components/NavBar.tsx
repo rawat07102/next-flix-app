@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react"
+import React, {useState} from "react"
 import {NextComponentType} from "next"
 
 import Drawer from "./Drawer"
@@ -69,47 +69,4 @@ const NavBar: NextComponentType = () => {
 	)
 }
 
-<<<<<<< HEAD
 export default NavBar
-=======
-  const authButton = user ? (
-    <Button className={classes.loginButton} onClick={handleLogout}>
-      Logout
-    </Button>
-  ) : (
-    <Link href="/login">
-      <Button className={classes.loginButton} size="large">
-        Login
-      </Button>
-    </Link>
-  );
-
-  return (
-    <AppBar position="sticky">
-      <Drawer open={open} handleClose={toggleDrawer}></Drawer>
-      <Container className={classes.container} maxWidth="lg">
-        <IconButton
-          onClick={toggleDrawer}
-          edge="start"
-          className={classes.iconButton}
-        >
-          <SvgIcon fontSize="inherit">
-            <path
-              fill="currentColor"
-              d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
-            />
-          </SvgIcon>
-        </IconButton>
-        {user && (
-          <Link href="/profile">
-            <Button className={classes.loginButton}>Profile</Button>
-          </Link>
-        )}
-        {authButton}
-      </Container>
-    </AppBar>
-  );
-};
-
-export default NavBar;
->>>>>>> 1b3ebf4a96969255a34e231d5e20d3f1b2b06dca
