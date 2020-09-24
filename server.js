@@ -4,7 +4,7 @@ const path = require("path");
 const url = require("url");
 const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
-const { createProxyMiddleware } = require("http-proxy-middleware");
+// const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 3000;
@@ -53,13 +53,13 @@ if (!dev && cluster.isMaster) {
       })
     );
 
-    server.use(
-      createProxyMiddleware("/api", {
-        target: "https://nest-flix-server.herokuapp.com",
-        pathRewrite: { "^/api": "" },
-        changeOrigin: true,
-      })
-    );
+    // server.use(
+    //   createProxyMiddleware("/api", {
+    //     target: "https://nest-flix-server.herokuapp.com",
+    //     pathRewrite: { "^/api": "" },
+    //     changeOrigin: true,
+    //   })
+    // );
 
     // Default catch-all renders Next app
     server.all("*", (req, res) => {
