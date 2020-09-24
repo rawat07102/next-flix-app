@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: theme.spacing(1),
 		fontSize: "1.5rem",
 	},
+	navButton: {
+		marginLeft: theme.spacing(1),
+		fontSize: "1.2rem",
+		paddingRight: 0,
+		fontWeight: theme.typography.fontWeightMedium,
+	},
 }))
 
 const NavBar: NextComponentType = () => {
@@ -54,10 +60,10 @@ const NavBar: NextComponentType = () => {
 				</IconButton>
 				{loggedIn && (
 					<Link href="/profile">
-						<Button>Profile</Button>
+						<Button className={classes.navButton}>Profile</Button>
 					</Link>
 				)}
-				<AuthButton />
+				<AuthButton className={classes.navButton} />
 			</Container>
 		</AppBar>
 	)
