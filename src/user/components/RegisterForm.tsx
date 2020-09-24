@@ -9,9 +9,11 @@ const RegisterForm = () => {
     password: "",
     email: "",
   });
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await axios.post("/user/register", userData);
+    const res = await axios.post("/user/register", userData);
+    console.log(res.data);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
