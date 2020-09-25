@@ -12,7 +12,6 @@ const LoginForm = () => {
 	const {loginUser} = useAuth()
 	const [loading, setLoading] = useState(false)
 	const [errors, setErrors] = useState("")
-	const [open, setOpen] = useState(false)
 
 	const [userData, setUserData] = useState<LoginDTO>({
 		email: "",
@@ -26,14 +25,13 @@ const LoginForm = () => {
 		if (reason === "clickaway") {
 			return
 		}
-		setOpen(false)
+		setErrors("")
 	}
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		if (userData.email === "" || userData.password === "") {
 			setErrors("Empty input.")
-			setOpen(true)
 			return
 		}
 		setLoading(true)
@@ -41,7 +39,6 @@ const LoginForm = () => {
 			await loginUser(userData)
 		} catch (err) {
 			setErrors("Invalid credentials.")
-			setOpen(true)
 			setLoading(false)
 			return
 		}
@@ -59,7 +56,7 @@ const LoginForm = () => {
 	return (
 		<FormLayout loading={loading} handleSubmit={handleSubmit}>
 			<Snackbar
-				open={open}
+				open={!!errors}
 				autoHideDuration={6000}
 				onClose={handleClose}
 				anchorOrigin={{horizontal: "center", vertical: "top"}}>
