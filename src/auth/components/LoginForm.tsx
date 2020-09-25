@@ -1,26 +1,50 @@
 import {useRouter} from "next/router"
-import {useState, FormEvent, ChangeEvent} from "react"
-// import {mutate} from "swr"
-import {TextField} from "@material-ui/core"
+import {useState, FormEvent, ChangeEvent, SyntheticEvent} from "react"
+import {TextField, Snackbar, SnackbarCloseReason} from "@material-ui/core"
 
 import FormLayout from "../../shared/components/FormLayout"
 import {useAuth} from "../hooks/useAuth"
 import {LoginDTO} from "../dto/auth.dto"
+import {Alert} from "@material-ui/lab"
 
 const LoginForm = () => {
 	const router = useRouter()
 	const {loginUser} = useAuth()
+	const [loading, setLoading] = useState(false)
+	const [errors, setErrors] = useState("")
+	const [open, setOpen] = useState(false)
 
 	const [userData, setUserData] = useState<LoginDTO>({
 		email: "",
 		password: "",
 	})
 
+	const handleClose = (
+		_event: SyntheticEvent<any, Event>,
+		reason?: SnackbarCloseReason
+	) => {
+		if (reason === "clickaway") {
+			return
+		}
+		setOpen(false)
+	}
+
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		// const {userId} = await mutate("/auth/login", loginUser(userData))
-		// localStorage.setItem("userId", userId)
-		loginUser(userData)
+		if (userData.email === "" || userData.password === "") {
+			setErrors("Empty input.")
+			setOpen(true)
+			return
+		}
+		setLoading(true)
+		try {
+			await loginUser(userData)
+		} catch (err) {
+			setErrors("Invalid credentials.")
+			setOpen(true)
+			setLoading(false)
+			return
+		}
 		router.replace("/profile")
 	}
 
@@ -33,8 +57,18 @@ const LoginForm = () => {
 	}
 
 	return (
-		<FormLayout handleSubmit={handleSubmit}>
+		<FormLayout loading={loading} handleSubmit={handleSubmit}>
+			<Snackbar
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleClose}
+				anchorOrigin={{horizontal: "center", vertical: "top"}}>
+				<Alert severity="error" onClose={handleClose}>
+					{errors}
+				</Alert>
+			</Snackbar>
 			<TextField
+				error={!!errors}
 				autoComplete="email"
 				onChange={handleChange}
 				id="email"
@@ -42,6 +76,7 @@ const LoginForm = () => {
 				type="email"
 			/>
 			<TextField
+				error={!!errors}
 				autoComplete="current-password"
 				onChange={handleChange}
 				id="password"

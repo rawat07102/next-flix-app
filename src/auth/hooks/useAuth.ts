@@ -10,9 +10,12 @@ function useAuth() {
 
 	async function loginUser(loginData: LoginDTO) {
 		await axios.post("/api/auth/login", loginData)
-		const res = await axios.get<{profile: UserDTO}>("/api/profile")
-		console.log(res, "useAuth")
-		setUser(res.data.profile)
+		try {
+			const res = await axios.get<{profile: UserDTO}>("/api/profile")
+			setUser(res.data.profile)
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	async function logoutUser() {
