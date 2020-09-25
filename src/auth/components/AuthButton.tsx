@@ -1,6 +1,9 @@
-import {Button, makeStyles} from "@material-ui/core"
-import Link from "next/link"
 import React, {FunctionComponent} from "react"
+import {useRouter} from "next/router"
+import Link from "next/link"
+
+import {Button, makeStyles} from "@material-ui/core"
+
 import {useAuth} from "../hooks/useAuth"
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +22,13 @@ interface Props {
 const AuthButton: FunctionComponent<Props> = ({className}) => {
 	const {loggedIn, logoutUser} = useAuth()
 	const classes = useStyles()
+	const router = useRouter()
+
+	const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault()
+		await logoutUser()
+		router.push("/")
+	}
 
 	if (!loggedIn) {
 		return (
@@ -35,7 +45,7 @@ const AuthButton: FunctionComponent<Props> = ({className}) => {
 	return (
 		<Button
 			className={className || classes.loginButton}
-			onClick={logoutUser}>
+			onClick={handleClick}>
 			Logout
 		</Button>
 	)

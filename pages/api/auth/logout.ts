@@ -11,7 +11,10 @@ const logoutHandler: NextApiHandler = (req, res) => {
 			},
 		})
 	}
-	const emptyCookie = serialize("jwt", "")
+	const emptyCookie = serialize("jwt", "deleted", {
+		maxAge: -1,
+		path: "/",
+	})
 
 	res.setHeader("Set-Cookie", emptyCookie)
 	res.json({
